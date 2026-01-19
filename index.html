@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDP ERP Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg flex flex-col">
+            <!-- Profile -->
+            <div class="p-6 flex items-center justify-center">
+                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl relative">
+                    <i class="fas fa-user"></i>
+                    <span class="absolute top-0 right-0 w-4 h-4 bg-blue-400 rounded-full border-2 border-white"></span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-4">
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg mb-2">
+                    <i class="fas fa-home w-6"></i>
+                    <span class="ml-3">Home</span>
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 bg-blue-500 text-white rounded-lg mb-2">
+                    <i class="fas fa-th-large w-6"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg mb-2">
+                    <i class="fas fa-user-shield w-6"></i>
+                    <span class="ml-3">Admin</span>
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg mb-2">
+                    <i class="fas fa-comments w-6"></i>
+                    <span class="ml-3">Messages</span>
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg mb-2">
+                    <i class="fas fa-cog w-6"></i>
+                    <span class="ml-3">Settings</span>
+                </a>
+            </nav>
+
+            <!-- Logout -->
+            <div class="p-4">
+                <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i class="fas fa-power-off w-6"></i>
+                    <span class="ml-3">Logout</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto bg-gray-50">
+            <!-- Header -->
+            <div class="bg-white shadow-sm p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+                        <p class="text-gray-500 text-sm">Welcome back to your dashboard</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <input type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="p-6">
+                <!-- Top Row -->
+                <div class="grid grid-cols-3 gap-6 mb-6">
+                    <!-- Activity Chart -->
+                    <div class="col-span-2 bg-white rounded-xl shadow-md p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold">Activity</h2>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 bg-blue-500 text-white rounded text-sm">Day</button>
+                                <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded text-sm">Weekly</button>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Calendar & Events -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <div class="text-center mb-4">
+                            <h3 class="text-lg font-semibold">2020/01</h3>
+                            <p class="text-sm text-gray-500">January</p>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-xs text-center mb-2">
+                            <div class="text-gray-400">S</div>
+                            <div class="text-gray-400">M</div>
+                            <div class="text-gray-400">T</div>
+                            <div class="text-gray-400">W</div>
+                            <div class="text-gray-400">T</div>
+                            <div class="text-gray-400">F</div>
+                            <div class="text-gray-400">S</div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-xs text-center" id="calendar"></div>
+
+                        <!-- Events -->
+                        <div class="mt-4 space-y-2">
+                            <div class="bg-blue-500 text-white p-3 rounded-lg text-xs">
+                                <p class="font-semibold">01 Jan - 03 Jan</p>
+                                <p>Important event details here</p>
+                            </div>
+                            <div class="bg-blue-400 text-white p-3 rounded-lg text-xs">
+                                <p class="font-semibold">15 Jan - 18 Jan</p>
+                                <p>Another scheduled event</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Row -->
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <!-- Line Chart -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold">Activity</h2>
+                            <button class="px-3 py-1 bg-blue-500 text-white rounded text-sm">Monthly</button>
+                        </div>
+                        <div class="h-48">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white rounded-xl shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">23%</p>
+                                <h3 class="text-2xl font-bold">01</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center">
+                                <div class="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">50%</p>
+                                <h3 class="text-2xl font-bold">02</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                                <div class="w-12 h-12 border-4 border-green-500 border-t-transparent border-r-transparent rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">25%</p>
+                                <h3 class="text-2xl font-bold">03</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
+                                <div class="w-12 h-12 border-4 border-red-500 border-t-transparent border-r-transparent border-b-transparent rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md p-6 flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">100%</p>
+                                <h3 class="text-2xl font-bold">04</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                                <div class="w-12 h-12 border-4 border-green-500 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Bar Chart -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-semibold mb-4">Activity</h2>
+                        <div class="h-64">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Expenses Donut -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-semibold mb-4">Expenses</h2>
+                        <div class="relative h-64">
+                            <canvas id="expensesChart"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold">21,424$</p>
+                                    <p class="text-sm text-gray-500">+1.01%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Donut -->
+                    <div class="bg-white rounded-xl shadow-md p-6">
+                        <h2 class="text-xl font-semibold mb-4">Revenue</h2>
+                        <div class="relative h-64">
+                            <canvas id="revenueChart"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div class="text-center">
+                                    <p class="text-3xl font-bold">940</p>
+                                    <p class="text-sm text-gray-500">+0.8%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate Calendar
+        function generateCalendar() {
+            const calendar = document.getElementById('calendar');
+            const daysInMonth = 31;
+            const startDay = 3; // Wednesday
+
+            // Empty cells for days before month starts
+            for (let i = 0; i < startDay; i++) {
+                calendar.innerHTML += '<div class="text-gray-300"></div>';
+            }
+
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = day === 15;
+                const isSelected = day === 3 || day === 18;
+                const classes = isToday ? 'bg-blue-500 text-white rounded-full p-1' :
+                               isSelected ? 'bg-blue-400 text-white rounded-full p-1' :
+                               'p-1 hover:bg-gray-100 rounded-full';
+                calendar.innerHTML += `<div class="${classes}">${day}</div>`;
+            }
+        }
+
+        // Activity Bar Chart
+        const activityCtx = document.getElementById('activityChart').getContext('2d');
+        new Chart(activityCtx, {
+            type: 'bar',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    data: [200, 300, 250, 400, 350, 300, 450, 400, 380, 420, 390, 410, 430, 450, 480, 500, 470, 490, 510, 530, 520, 540, 560, 550, 570, 590, 580, 600, 620, 610],
+                    backgroundColor: '#3B82F6',
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#E5E7EB' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Line Chart
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Series 1',
+                    data: [300, 280, 320, 290, 350, 310, 380, 360, 340, 370, 390, 410],
+                    borderColor: '#EF4444',
+                    backgroundColor: 'transparent',
+                    tension: 0.4
+                }, {
+                    label: 'Series 2',
+                    data: [250, 270, 260, 280, 290, 300, 310, 320, 330, 340, 350, 360],
+                    borderColor: '#3B82F6',
+                    backgroundColor: 'transparent',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#E5E7EB' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Bar Chart (Bottom)
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                datasets: [{
+                    label: 'Red',
+                    data: [200, 250, 180, 300, 280, 250, 320, 290],
+                    backgroundColor: '#EF4444',
+                }, {
+                    label: 'Blue',
+                    data: [180, 220, 200, 280, 260, 230, 300, 270],
+                    backgroundColor: '#3B82F6',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#E5E7EB' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Expenses Donut Chart
+        const expensesCtx = document.getElementById('expensesChart').getContext('2d');
+        new Chart(expensesCtx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [35, 25, 20, 20],
+                    backgroundColor: ['#3B82F6', '#EF4444', '#F59E0B', '#10B981'],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+
+        // Revenue Donut Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+
+        // Initialize
+        generateCalendar();
+    </script>
+</body>
+</html>
